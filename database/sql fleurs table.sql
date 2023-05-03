@@ -4,7 +4,7 @@ CREATE DATABASE IF NOT EXISTS Fleuriste;
 USE Fleuriste;
 
 CREATE TABLE client (
-id_client int NOT NULL PRIMARY KEY,
+id_client INT PRIMARY KEY AUTO_INCREMENT,
 nom varchar(50),
 prenom varchar(50),
 email varchar(50),
@@ -23,12 +23,12 @@ categorie varchar(50)
 );
 
 CREATE TABLE arrangement_floral (
-num_bouquet int NOT NULL PRIMARY KEY,
+num_bouquet INT PRIMARY KEY AUTO_INCREMENT,
 prix_donne int
 );
 
 CREATE TABLE commande (
-num_commande int NOT NULL PRIMARY KEY,
+num_commande INT PRIMARY KEY AUTO_INCREMENT,
 adresse_livraison varchar(50),
 message varchar(50),
 date_livraison datetime,
@@ -50,7 +50,7 @@ disponibilite varchar(50)
 );
 
 CREATE TABLE magasin (
-num_magasin int NOT NULL PRIMARY KEY,
+num_magasin INT PRIMARY KEY AUTO_INCREMENT,
 ville varchar(50),
 adresse_magasin varchar(50)
 );
