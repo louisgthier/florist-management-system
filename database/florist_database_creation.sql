@@ -4,8 +4,9 @@ CREATE DATABASE IF NOT EXISTS florist;
 
 SELECT * FROM mysql.user;
 
+
 -- Drop all roles
-DELETE FROM mysql.role_edges;
+DELETE FROM mysql.role_edges WHERE FROM_HOST != "fuiadhazufegiadzg";
 
 -- Drop all users
 DROP USER IF EXISTS 'florist_user'@'localhost';
@@ -26,7 +27,6 @@ USE florist;
 
 DROP TABLE IF EXISTS client;
 
-
 CREATE TABLE client (
 id INT PRIMARY KEY AUTO_INCREMENT,
 first_name VARCHAR(50),
@@ -46,11 +46,11 @@ category VARCHAR(50)
 );
 
 CREATE TABLE flower_arrangement (
-id INT PRIMARY KEY AUTO_INCREMENT,
+id INT PRIMARY KEY ,
 price INT
 );
 
-CREATE TABLE order (
+CREATE TABLE purchase_order (
 id INT PRIMARY KEY AUTO_INCREMENT,
 delivery_adress VARCHAR(50),
 message VARCHAR(50),
@@ -60,13 +60,14 @@ order_state VARCHAR(4),
 client_id INT,
 arrangement_id INT,
 bouquet_name VARCHAR(50),
-FOREIGN KEY (client_id) REFERENCES client (client_id),
-FOREIGN KEY (arrangement_id) REFERENCES flower_arrangement (arrangement_id),
-FOREIGN KEY (bouquet_name) REFERENCES standard_bouquet (bouquet_name)
+FOREIGN KEY (client_id) REFERENCES client (id),
+FOREIGN KEY (arrangement_id) REFERENCES flower_arrangement (id),
+FOREIGN KEY (bouquet_name) REFERENCES standard_bouquet (name)
 );
 
+
 CREATE TABLE item (
-name VARCHAR(50) NOT NULL PRIMARY KEY,
+name VARCHAR(50) PRIMARY KEY,
 price INT,
 type VARCHAR(1),
 availability VARCHAR(50)
@@ -82,20 +83,18 @@ CREATE TABLE arrangement_contains (
 num_bouquet INT NOT NULL,
 nom_produit VARCHAR(50) NOT NULL,
 PRIMARY KEY (num_bouquet, nom_produit),
-FOREIGN KEY (num_bouquet) REFERENCES flower_arrangement (num_bouquet),
-FOREIGN KEY (nom_produit) REFERENCES item (nom_produit)
+FOREIGN KEY (num_bouquet) REFERENCES flower_arrangement (id),
+FOREIGN KEY (nom_produit) REFERENCES item (name)
 );
 
 CREATE TABLE is_stored (
-nom_produit VARCHAR(50) NOT NULL,
-num_magasin INT NOT NULL,
-quantite INT,
-PRIMARY KEY (nom_produit, num_magasin),
-FOREIGN KEY (nom_produit) REFERENCES produit (nom_produit),
-FOREIGN KEY (num_magasin) REFERENCES magasin (num_magasin)
+name VARCHAR(50) NOT NULL,
+id INT NOT NULL,
+quantity INT,
+PRIMARY KEY (name, id),
+FOREIGN KEY (name) REFERENCES item (name),
+FOREIGN KEY (id) REFERENCES shop (id)
 );
-
-
 
 -- Manage client privileges
 
