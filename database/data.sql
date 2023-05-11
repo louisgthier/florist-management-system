@@ -62,47 +62,47 @@ INSERT INTO item (name, price, type, availability) VALUES
 ('Gants de jardinage', 6.00, 'i', 'à lannée'),
 ('Sécateur de jardin', 10.00, 'i', 'à lannée');
 
-INSERT INTO flower_arrangement (price) VALUES (null);
-INSERT INTO flower_arrangement (price) VALUES (15);
-INSERT INTO flower_arrangement (price) VALUES (60);
-INSERT INTO flower_arrangement (price) VALUES (80);
-INSERT INTO flower_arrangement (price) VALUES (25);
-INSERT INTO flower_arrangement (price) VALUES (65);
-INSERT INTO flower_arrangement (price) VALUES (90);
-INSERT INTO flower_arrangement (price) VALUES (40);
-INSERT INTO flower_arrangement (price) VALUES (20);
-INSERT INTO flower_arrangement (price) VALUES (75);
-INSERT INTO flower_arrangement (price) VALUES (12);
-INSERT INTO flower_arrangement (price) VALUES (30);
-INSERT INTO flower_arrangement (price) VALUES (70);
-INSERT INTO flower_arrangement (price) VALUES (50);
-INSERT INTO flower_arrangement (price) VALUES (85);
-INSERT INTO flower_arrangement (price) VALUES (95);
-INSERT INTO flower_arrangement (price) VALUES (18);
-INSERT INTO flower_arrangement (price) VALUES (45);
-INSERT INTO flower_arrangement (price) VALUES (80);
-INSERT INTO flower_arrangement (price) VALUES (60);
-INSERT INTO flower_arrangement (price) VALUES (35);
+INSERT INTO flower_arrangement (id,price) VALUES (0,null);
+INSERT INTO flower_arrangement (id,price) VALUES (1,15);
+INSERT INTO flower_arrangement (id,price) VALUES (2,60);
+INSERT INTO flower_arrangement (id,price) VALUES (3,80);
+INSERT INTO flower_arrangement (id,price) VALUES (4,25);
+INSERT INTO flower_arrangement (id,price) VALUES (5,65);
+INSERT INTO flower_arrangement (id,price) VALUES (6,90);
+INSERT INTO flower_arrangement (id,price) VALUES (40);
+INSERT INTO flower_arrangement (id,price) VALUES (7,20);
+INSERT INTO flower_arrangement (id,price) VALUES (8,75);
+INSERT INTO flower_arrangement (id,price) VALUES (9,12);
+INSERT INTO flower_arrangement (id,price) VALUES (10,30);
+INSERT INTO flower_arrangement (id,price) VALUES (11,70);
+INSERT INTO flower_arrangement (id,price) VALUES (12,50);
+INSERT INTO flower_arrangement (id,price) VALUES (13,85);
+INSERT INTO flower_arrangement (id,price) VALUES (14,95);
+INSERT INTO flower_arrangement (id,price) VALUES (15,18);
+INSERT INTO flower_arrangement (id,price) VALUES (16,45);
+INSERT INTO flower_arrangement (id,price) VALUES (17,80);
+INSERT INTO flower_arrangement (id,price) VALUES (18,60);
+INSERT INTO flower_arrangement (id,price) VALUES (19,35);
 
 INSERT INTO purchase_order (delivery_adress, message, delivery_date, order_date, order_state, client_id, arrangement_id, bouquet_name)
 VALUES
-('10 Rue du Bac, Paris', 'Merci pour tout', '2015-12-01 12:00:00', '2015-11-01 12:00:00', 'CL', 1, 1, 'Gros Merci'),
-('28 Rue des Champs, Lyon', 'Joyeux anniversaire', '2015-12-05 12:00:00', '2015-11-05 12:00:00', 'CL', 2, 1, 'Le Printanier'),
-('17 Rue de la Paix, Marseille', 'Félicitations', '2015-12-09 12:00:00', '2015-11-09 12:00:00', 'CL', 3, 1, 'Fleurs du Sud'),
-('11 Rue de la Gare, Lille', 'Joyeuses fêtes', '2015-12-13 12:00:00', '2015-11-13 12:00:00', 'CL', 4, 1, 'Belle Epoque'),
-('9 Rue de la Liberté, Bordeaux', 'Bon rétablissement', '2015-12-17 12:00:00', '2015-11-17 12:00:00', 'CL', 5, 1, 'L’Exotique'),
-('13 Rue des Fleurs, Toulouse', 'Félicitations pour le bébé', '2015-12-21 12:00:00', '2015-11-21 12:00:00', 'CL', 6, 1, 'Maman'),
-('21 Rue des Lilas, Nice', 'Je t’aime', '2015-12-25 12:00:00', '2015-11-25 12:00:00', 'CL', 7, 1, 'L’amoureux'),
-('6 Rue du Marché, Nantes', 'Bon courage', '2015-12-29 12:00:00', '2015-11-29 12:00:00', 'CL', 8, 1, 'Le Jardin Anglais'),
-('2 Rue des Écoles, Strasbourg', 'Félicitations pour le diplôme', '2016-01-02 12:00:00', '2015-12-02 12:00:00', 'CL', 9, 1, 'Fleurs du Sud'),
-('12 Rue de la Poste, Grenoble', 'Joyeux Noël', '2016-01-06 12:00:00', '2015-12-06 12:00:00', 'CL', 10, 1, 'Le Jardin Anglais'),
-('14 Rue du Palais, Montpellier', 'Bonne fête maman', '2016-01-10 12:00:00', '2015-12-10 12:00:00', 'CL', 11, 1, 'L’Exotique'),
-('12 Rue du Moulin', 'Joyeux anniversaire', '2015-06-15 10:00:00', '2015-05-15 10:00:00', 'CL', 1, 1, 'Gros Merci'),
-('6 Rue des Fleurs', 'Félicitations !', '2015-07-01 12:00:00', '2015-06-01 12:00:00', 'CL', 5, 1, 'Vive la mariée'),
-('19 Rue de la Mairie', 'Bonne fête maman', '2015-05-24 14:00:00', '2015-04-24 14:00:00', 'CL', 4, 1, 'Maman'),
-('14 Rue du Palais', 'Pour toi mon amour', '2015-06-15 16:00:00', '2015-05-15 16:00:00', 'CL', 10, 1, 'L’Exotique'),
-('11 Rue de la Gare', 'Bonne fête papa', '2015-06-22 10:00:00', '2015-05-22 10:00:00', 'CL', 1, 1, 'Gros Merci'),
-('21 Rue des Lilas', 'Bon rétablissement', '2015-07-03 10:00:00', '2015-06-03 10:00:00', 'CL', 8, 1, 'Le Jardin Anglais');
+('10 Rue du Bac, Paris', 'Merci pour tout', '2015-12-01 12:00:00', '2015-11-01 12:00:00', 'CL', 1, 0, 'Gros Merci'),
+('28 Rue des Champs, Lyon', 'Joyeux anniversaire', '2015-12-05 12:00:00', '2015-11-05 12:00:00', 'CL', 2, 0, 'Le Printanier'),
+('17 Rue de la Paix, Marseille', 'Félicitations', '2015-12-09 12:00:00', '2015-11-09 12:00:00', 'CL', 3, 0, 'Fleurs du Sud'),
+('11 Rue de la Gare, Lille', 'Joyeuses fêtes', '2015-12-13 12:00:00', '2015-11-13 12:00:00', 'CL', 4, 0, 'Belle Epoque'),
+('9 Rue de la Liberté, Bordeaux', 'Bon rétablissement', '2015-12-17 12:00:00', '2015-11-17 12:00:00', 'CL', 5, 0, 'L’Exotique'),
+('13 Rue des Fleurs, Toulouse', 'Félicitations pour le bébé', '2015-12-21 12:00:00', '2015-11-21 12:00:00', 'CL', 6,0, 'Maman'),
+('21 Rue des Lilas, Nice', 'Je t’aime', '2015-12-25 12:00:00', '2015-11-25 12:00:00', 'CL', 7,0, 'L’amoureux'),
+('6 Rue du Marché, Nantes', 'Bon courage', '2015-12-29 12:00:00', '2015-11-29 12:00:00', 'CL', 8,0, 'Le Jardin Anglais'),
+('2 Rue des Écoles, Strasbourg', 'Félicitations pour le diplôme', '2016-01-02 12:00:00', '2015-12-02 12:00:00', 'CL', 9,0, 'Fleurs du Sud'),
+('12 Rue de la Poste, Grenoble', 'Joyeux Noël', '2016-01-06 12:00:00', '2015-12-06 12:00:00', 'CL', 10,0, 'Le Jardin Anglais'),
+('14 Rue du Palais, Montpellier', 'Bonne fête maman', '2016-01-10 12:00:00', '2015-12-10 12:00:00', 'CL', 11,0, 'L’Exotique'),
+('12 Rue du Moulin', 'Joyeux anniversaire', '2015-06-15 10:00:00', '2015-05-15 10:00:00', 'CL', 1,0, 'Gros Merci'),
+('6 Rue des Fleurs', 'Félicitations !', '2015-07-01 12:00:00', '2015-06-01 12:00:00', 'CL', 5,0, 'Vive la mariée'),
+('19 Rue de la Mairie', 'Bonne fête maman', '2015-05-24 14:00:00', '2015-04-24 14:00:00', 'CL', 4,0, 'Maman'),
+('14 Rue du Palais', 'Pour toi mon amour', '2015-06-15 16:00:00', '2015-05-15 16:00:00', 'CL', 10,0, 'L’Exotique'),
+('11 Rue de la Gare', 'Bonne fête papa', '2015-06-22 10:00:00', '2015-05-22 10:00:00', 'CL', 1,0, 'Gros Merci'),
+('21 Rue des Lilas', 'Bon rétablissement', '2015-07-03 10:00:00', '2015-06-03 10:00:00', 'CL', 8,0, 'Le Jardin Anglais');
 
 
 
