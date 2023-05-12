@@ -183,7 +183,7 @@ namespace UtilityLibrary
             }
         }
 
-        public static StandardBouquet[] GetStandardBouquets()
+        /*public static StandardBouquet[] GetStandardBouquets()
         {
             StandardBouquet[] result = null;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -231,6 +231,6 @@ namespace UtilityLibrary
             }
 
             return result;
-        }
+        }*/
     }
 }

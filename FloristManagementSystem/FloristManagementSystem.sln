@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 25.0.1704.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerCLI", "FloristManagementSystem\ManagerCLI.csproj", "{40F49C12-A802-423D-8563-29BC4321BDC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerCLI", "FloristManagementSystem\ManagerCLI.csproj", "{40F49C12-A802-423D-8563-29BC4321BDC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientCLI", "ClientCLI\ClientCLI.csproj", "{AAA0D4DE-7136-4BD2-AC6A-BC06E193E38C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientCLI", "ClientCLI\ClientCLI.csproj", "{AAA0D4DE-7136-4BD2-AC6A-BC06E193E38C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilityLibrary", "UtilityLibrary\UtilityLibrary.csproj", "{D2469FE3-2E11-4AD4-9C65-AE9A4ACB1FA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilityLibrary", "UtilityLibrary\UtilityLibrary.csproj", "{D2469FE3-2E11-4AD4-9C65-AE9A4ACB1FA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerGUI", "ManagerGUI\ManagerGUI.csproj", "{2812F204-5E23-46ED-B92D-76F644D58FC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{D2469FE3-2E11-4AD4-9C65-AE9A4ACB1FA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2469FE3-2E11-4AD4-9C65-AE9A4ACB1FA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2469FE3-2E11-4AD4-9C65-AE9A4ACB1FA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2812F204-5E23-46ED-B92D-76F644D58FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2812F204-5E23-46ED-B92D-76F644D58FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2812F204-5E23-46ED-B92D-76F644D58FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2812F204-5E23-46ED-B92D-76F644D58FC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
