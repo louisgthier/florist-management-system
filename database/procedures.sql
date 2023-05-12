@@ -33,11 +33,11 @@ DELIMITER //
 CREATE PROCEDURE IF NOT EXISTS create_client(
     IN email_param VARCHAR(320),
     IN password_param VARCHAR(255),
-    IN nom_param VARCHAR(50),
-    IN prenom_param VARCHAR(50),
-    IN num_tel_param VARCHAR(20),
-    IN adresse_param VARCHAR(100),
-    IN num_cb_param VARCHAR(19),
+    IN first_name_param VARCHAR(50),
+    IN name_param VARCHAR(50),
+    IN phone_number_param VARCHAR(20),
+    IN address_param VARCHAR(100),
+    IN credit_card_param VARCHAR(19),
     OUT success BOOLEAN
 )
 BEGIN
@@ -58,8 +58,9 @@ BEGIN
     IF is_valid = 1 THEN
         IF email_exists = 0 THEN
             -- Proceed with creating the user
-            INSERT INTO Client (nom, prenom, email, num_tel, adresse, num_cb, date_inscription)
-            VALUES (nom_param, prenom_param, email_param, num_tel_param, adresse_param, num_cb_param, NOW());
+
+            INSERT INTO Client (first_name, name, email, phone_number, address, credit_card, inscription_date)
+            VALUES (first_name_param, name_param, email_param, phone_number_param, address_param, credit_card_param, NOW());
             
             SET @create_user_sql = CONCAT('CREATE USER \'', email_param, '\'@\'localhost\' IDENTIFIED BY \'', password_param, '\'');
             PREPARE create_user_stmt FROM @create_user_sql;
