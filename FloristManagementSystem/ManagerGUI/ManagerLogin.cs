@@ -17,6 +17,14 @@ namespace ManagerGUI
 
         private void label1_Click(object sender, EventArgs e)
         {
+
+
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
             if (MySQLUtil.LoginAsUser("localhost", 3306, "florist", textBox1.Text, textBox2.Text))
             {
                 if (textBox1.Text == "root")
@@ -37,9 +45,6 @@ namespace ManagerGUI
             {
                 MessageBox.Show("Identifiants incorrects !");
             }
-
-
-            
         }
     }
 }
