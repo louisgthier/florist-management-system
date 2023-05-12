@@ -80,11 +80,11 @@ address VARCHAR(50)
 
 CREATE TABLE arrangement_contains (
 
-num_bouquet INT NOT NULL,
-nom_produit VARCHAR(50) NOT NULL,
-PRIMARY KEY (num_bouquet, nom_produit),
-FOREIGN KEY (num_bouquet) REFERENCES flower_arrangement (id),
-FOREIGN KEY (nom_produit) REFERENCES item (name)
+arrangement_id INT NOT NULL,
+item_name VARCHAR(50) NOT NULL,
+PRIMARY KEY (arrangement_id, item_name),
+FOREIGN KEY (arrangement_id) REFERENCES flower_arrangement (id),
+FOREIGN KEY (item_name) REFERENCES item (name)
 );
 
 CREATE TABLE is_stored (
