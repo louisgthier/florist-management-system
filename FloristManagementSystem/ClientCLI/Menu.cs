@@ -16,7 +16,7 @@ namespace ClientCLI
 			this.name = name;
 		}
 
-		private void PrintMenu()
+		internal void PrintMenu()
 		{
             Console.Clear();
 

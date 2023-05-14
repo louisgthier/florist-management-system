@@ -1,6 +1,7 @@
 ﻿using ClientCLI;
 using UtilityLibrary;
 using MySql.Data.MySqlClient;
+using ClientCLI.Menus;
 // See https://aka.ms/new-console-template for more information
 
 
@@ -15,7 +16,7 @@ Menus[MenuID.MainMenu].options.Add(Menus[MenuID.Login]);
 Menus[MenuID.MainMenu].options.Add(Menus[MenuID.Register]);
 
 Menus[MenuID.Order] = new Menu("Order");
-Menus[MenuID.OrderStandardBouquet] = new Menu("Order standard bouquet");
+Menus[MenuID.OrderStandardBouquet] = new OrderStandardBouquetMenu();
 Menus[MenuID.OrderFlowerArrangement] = new Menu("Order flower arrangement");
 Menus[MenuID.Order].options.Add(Menus[MenuID.OrderStandardBouquet]);
 Menus[MenuID.Order].options.Add(Menus[MenuID.OrderFlowerArrangement]);

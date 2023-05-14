@@ -1,6 +1,6 @@
 ﻿using System;
 using UtilityLibrary;
-namespace ClientCLI
+namespace ClientCLI.Menus
 {
 	public class LoginMenu: Menu
 	{

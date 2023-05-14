@@ -4,16 +4,17 @@ namespace UtilityLibrary
 	public class StandardBouquet
 	{
         public string Name;
+        public string Description;
         public float Price;
 		public string Category;
-		public string Description;
+		
 
-        public StandardBouquet(string name, float price, string category, string description)
+        public StandardBouquet(string name, string description, float price, string category)
 		{
 			this.Name = name;
-			this.Price = price;
+            this.Description = description;
+            this.Price = price;
 			this.Category = category;
-			this.Description = description;
 		}
 	}
 }

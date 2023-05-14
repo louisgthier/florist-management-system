@@ -2,7 +2,7 @@
 using UtilityLibrary;
 using System.Threading;
 
-namespace ClientCLI
+namespace ClientCLI.Menus
 {
 	public class RegisterMenu: Menu
 	{

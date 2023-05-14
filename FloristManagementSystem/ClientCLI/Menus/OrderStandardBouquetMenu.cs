@@ -9,35 +9,73 @@ namespace ClientCLI.Menus
         {
 		}
 
+        void PrintMenu(List<StandardBouquet> bouquets)
+        {
+            Console.Clear();
+
+            Console.WriteLine(name);
+            Console.WriteLine(0 + ". " + "Cancel order");
+            int i = 1;
+            foreach (StandardBouquet bouquet in bouquets)
+            {
+                Console.WriteLine(i + ". " + bouquet.Name + " ("+bouquet.Price+"€)" + ": " + bouquet.Description);
+                i++;
+            }
+        }
+
         public override async void Show(string message = null)
         {
 
-            string email = RequestString("Enter email:", inputValidator: MySQLUtil.CheckEmailAvailable);
+            List<StandardBouquet> bouquets = MySQLUtil.GetStandardBouquets();
+            
+            PrintMenu(bouquets);
+            int? selectedOption = null;
 
-            string password;
-            string passwordConfirmation = null;
-
-            do
+            while (selectedOption is null)
             {
-                password = RequestString((passwordConfirmation != null ? "Passwords were not the same\n" : "") + "Enter a new password for " + email + ":", inputValidator: x => MySQLUtil.CheckLength(x, 8));
-                passwordConfirmation = RequestString("Confirm password:");
-            } while (passwordConfirmation != password);
+                Console.WriteLine("\nSelect option:");
+                try
+                {
+                    selectedOption = int.Parse(Console.ReadLine());
+                    if (selectedOption > bouquets.Count || selectedOption < 0)
+                    {
+                        selectedOption = null;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                catch (System.FormatException)
+                {
 
-            string prenom = RequestString("Enter your first name:");
+                }
+                PrintMenu(bouquets);
+                Console.WriteLine("\nIncorrect option!");
+            }
 
-            string nom = RequestString("Enter your last name:");
+            if (selectedOption == 0)
+                Program.MainMenu.Show();
 
-            string numTel = RequestString("Enter your phone number:");
+            StandardBouquet selectedBouquet = bouquets[(int)selectedOption - 1];
 
-            string adresse = RequestString("Enter your adresse:");
 
-            string numCb = RequestString("Enter your credit card number:");
+            string confirm = RequestString("Confirm order (Y/N):", inputValidator: x => (x.ToLower() == "y" || x.ToLower() == "n", "Incorrect option"));
 
-            MySQLUtil.RegisterClient(email, password, nom, prenom, numTel, adresse, numCb);
 
+            if (confirm.ToLower() == "y")
+            {
+                //MySqlUtil.OrderBouquet(selectedBouquet);
+                Console.WriteLine("You order has been sent to the shop");
+            }
+
+            else
+            {
+                Console.WriteLine("You order has been cancelled");
+            }
             Thread.Sleep(2000);
-
             Program.MainMenu.Show();
+            
 
         }
     }

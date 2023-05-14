@@ -183,54 +183,34 @@ namespace UtilityLibrary
             }
         }
 
-        //public static StandardBouquet[] GetStandardBouquets()
-        //{
-        //    StandardBouquet[] result = null;
-        //    using (MySqlConnection connection = new MySqlConnection(connectionString))
-        //    {
-        //        connection.Open();
+        public static List<StandardBouquet> GetStandardBouquets()
+        {
+            List<StandardBouquet> result = null;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
 
-        //        // Create a MySqlCommand object
-        //        using (MySqlCommand command = connection.CreateCommand())
-        //        {
-        //            command.CommandText =
-        //                "SELECT * FROM standard_bouquet;";
+                // Create a MySqlCommand object
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText =
+                        "SELECT * FROM standard_bouquet;";
 
-        //            MySqlDataReader reader;
-        //            reader = command.ExecuteReader();
+                    MySqlDataReader reader;
+                    reader = command.ExecuteReader();
 
-        //            string marque;
-        //            while (reader.Read())// parcourt ligne par ligne
-        //            {
-        //                // prix = Convert.ToInt32(Console.ReadLine());
-        //                marque = reader.GetString(0);  // récupération de la 1ère colonne (il n'y en a qu'une dans la requête !)
-        //                Console.WriteLine(marque);
-        //            }
+                    result = new List<StandardBouquet>();
 
-        //            // Add parameters to the command
-        //            command.Parameters.AddWithValue("@email_param", email);
-        //            command.Parameters.AddWithValue("@password_param", password);
-        //            command.Parameters.AddWithValue("@nom_param", nom);
-        //            command.Parameters.AddWithValue("@prenom_param", prenom);
-        //            command.Parameters.AddWithValue("@num_tel_param", numTel);
-        //            command.Parameters.AddWithValue("@adresse_param", adresse);
-        //            command.Parameters.AddWithValue("@num_cb_param", numCb);
 
-        //            // Output parameters
-        //            command.Parameters.Add("@success", MySqlDbType.Int32);
-        //            command.Parameters["@success"].Direction = ParameterDirection.Output;
+                    string marque;
+                    while (reader.Read())// parcourt ligne par ligne
+                    {
+                        result.Add(new StandardBouquet(reader.GetString(0), reader.GetString(1), float.Parse(reader.GetString(2)), reader.GetString(3)));
+                    }
+                }
+            }
 
-        //            // Execute the command
-        //            command.ExecuteNonQuery();
-
-        //            success = Convert.ToInt32(command.Parameters["@success"].Value) == 1;
-
-        //            // Display the result
-        //            Console.WriteLine("Client registration completed successfully!");
-        //        }
-        //    }
-
-        //    return result;
-        //}
+            return result;
+        }
     }
 }
