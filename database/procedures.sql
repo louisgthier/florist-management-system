@@ -27,6 +27,7 @@ DELIMITER ;
 GRANT EXECUTE ON PROCEDURE florist.check_email TO 'florist_user'@'localhost';
 
 
+
 -- Procedure to create a new user
 DROP PROCEDURE IF EXISTS create_client;
 DELIMITER //
@@ -77,6 +78,11 @@ BEGIN
             EXECUTE stmt;
             DEALLOCATE PREPARE stmt;
 
+            SET @grant_all_procedures_sql = CONCAT('GRANT EXECUTE ON florist.* TO \'', email_param, '\'@\'localhost\'');
+            PREPARE stmt FROM @grant_all_procedures_sql;
+            EXECUTE stmt;
+            DEALLOCATE PREPARE stmt;
+
             SET success = 1;
             SELECT 'User created' AS result;
         ELSE
@@ -88,3 +94,49 @@ BEGIN
 END //
 DELIMITER ;
 GRANT EXECUTE ON PROCEDURE florist.create_client TO 'florist_user'@'localhost';
+
+
+
+-- Procedure to create a new purchase order for a standard bouquet
+DROP PROCEDURE IF EXISTS order_standard_bouquet;
+DELIMITER //
+CREATE PROCEDURE IF NOT EXISTS order_standard_bouquet(
+    IN delivery_address_param VARCHAR(50),
+    IN message_param VARCHAR(50),
+    IN delivery_date_param DATETIME,
+    IN bouquet_name_param VARCHAR(50),
+    OUT success BOOLEAN
+)
+BEGIN
+    DECLARE bouquet_exists BOOLEAN;
+    DECLARE client_exists BOOLEAN;
+
+    DECLARE client_id_param INT;
+
+    SET success = 0;
+
+    -- Check if the bouquet name exists in the standard_bouquet table
+    SELECT COUNT(*) INTO bouquet_exists FROM standard_bouquet WHERE name = bouquet_name_param;
+
+    -- Find the client ID based on the username
+    SELECT id INTO client_id_param FROM client WHERE CONCAT(email, "@localhost") = USER();
+
+    IF bouquet_exists = 1 AND client_id_param IS NOT NULL THEN
+        -- Insert the new purchase order
+        INSERT INTO purchase_order (delivery_address, message, delivery_date, order_date, order_state, client_id, bouquet_name)
+        VALUES (delivery_address_param, message_param, delivery_date_param, NOW(), 'CC', client_id_param, bouquet_name_param);
+
+        SET success = 1;
+        SELECT 'Purchase order created' AS result;
+    ELSE
+        IF bouquet_exists = 0 THEN
+            SELECT 'Invalid bouquet name' AS result;
+        ELSE
+            SELECT 'Invalid client username' AS result;
+        END IF;
+    END IF;
+END //
+DELIMITER ;
+GRANT EXECUTE ON PROCEDURE florist.order_standard_bouquet TO florist_client;
+
+SELECT * FROM florist.purchase_order;

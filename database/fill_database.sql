@@ -86,7 +86,7 @@ INSERT INTO flower_arrangement (id,price) VALUES (17,80);
 INSERT INTO flower_arrangement (id,price) VALUES (18,60);
 INSERT INTO flower_arrangement (id,price) VALUES (19,35);
 
-INSERT INTO purchase_order (delivery_adress, message, delivery_date, order_date, order_state, client_id, arrangement_id, bouquet_name)
+INSERT INTO purchase_order (delivery_address, message, delivery_date, order_date, order_state, client_id, arrangement_id, bouquet_name)
 VALUES
 ('10 Rue du Bac, Paris', 'Merci pour tout', '2015-12-01 12:00:00', '2015-11-01 12:00:00', 'CL', 1, null, 'Gros Merci'),
 ('28 Rue des Champs, Lyon', 'Joyeux anniversaire', '2015-12-05 12:00:00', '2015-11-05 12:00:00', 'CL', 2, null, 'Le Printanier'),

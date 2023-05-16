@@ -5,7 +5,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UtilityLibrary
 {
-	public static class MySQLUtil
+	public static partial class MySQLUtil
 	{
         private static string connectionString = "";
 
@@ -138,6 +138,39 @@ namespace UtilityLibrary
             return (true, "");
         }
 
+        public static (bool, string) CheckDate(string input, DateTime? minimumDate = null, DateTime? maximumDate=null)
+        {
+            MySql.Data.Types.MySqlDateTime converted;
+
+            try
+            {
+                converted = new MySql.Data.Types.MySqlDateTime(input);
+                converted.GetDateTime();
+            } catch (Exception ex) when (ex is System.FormatException || ex is MySql.Data.Types.MySqlConversionException || ex is System.ArgumentOutOfRangeException || ex is System.IndexOutOfRangeException)
+            {
+                return (false, "The date is not in the correct format");
+            }
+
+            if (minimumDate != null)
+            {
+                if (converted.GetDateTime() < minimumDate)
+                {
+                    return (false, "Date should be after: " + minimumDate.ToString());
+                }
+            }
+
+            if (maximumDate != null)
+            {
+                if (converted.GetDateTime() > maximumDate)
+                {
+                    return (false, "Date should be before: " + maximumDate.ToString());
+                }
+            }
+
+            return (true, "");
+            
+        }
+
 
         public static void RegisterClient(string email, string password, string nom, string prenom, string numTel, string adresse, string numCb)
         {
@@ -212,5 +245,81 @@ namespace UtilityLibrary
 
             return result;
         }
+
+        public static bool OrderStandardBouquet(StandardBouquet bouquet, string deliveryAddress, string message, string deliveryDate)
+        {
+            if (connectionString == "")
+            {
+                throw new Exception("Connection string not set");
+            }
+
+            bool success;
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                // Open the database connection
+                connection.Open();
+
+                // Create a MySqlCommand object
+                using (MySqlCommand command = new MySqlCommand("order_standard_bouquet", connection))
+                {
+                    // Set the command type to stored procedure
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // Add parameters to the command
+                    command.Parameters.AddWithValue("@delivery_address_param", deliveryAddress);
+                    command.Parameters.AddWithValue("@message_param", message);
+                    command.Parameters.AddWithValue("@delivery_date_param", deliveryDate);
+                    command.Parameters.AddWithValue("@bouquet_name_param", bouquet.Name);
+
+                    // Output parameters
+                    command.Parameters.Add("@success", MySqlDbType.Int32);
+                    command.Parameters["@success"].Direction = ParameterDirection.Output;
+
+                    // Execute the command
+                    command.ExecuteNonQuery();
+
+                    success = Convert.ToInt32(command.Parameters["@success"].Value) == 1;
+
+                    // Display the result
+                    if (success)
+                        Console.WriteLine("Purchase order completed successfully!");
+                    else
+                        Console.WriteLine("Could not complete order");
+
+                    return success;
+                }
+            }
+        }
+
+        //public static List<PurchaseOrder> GetPurchaseOrders()
+        //{
+        //    List<PurchaseOrder> result = null;
+        //    using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //    {
+        //        connection.Open();
+
+        //        // Create a MySqlCommand object
+        //        using (MySqlCommand command = connection.CreateCommand())
+        //        {
+        //            command.CommandText =
+        //                "SELECT * FROM standard_bouquet;";
+
+        //            MySqlDataReader reader;
+        //            reader = command.ExecuteReader();
+
+        //            result = new List<PurchaseOrder>();
+
+
+        //            string marque;
+        //            while (reader.Read())// parcourt ligne par ligne
+        //            {
+        //                result.Add(new StandardBouquet(reader.GetString(0), reader.GetString(1), float.Parse(reader.GetString(2)), reader.GetString(3)));
+        //            }
+        //        }
+        //    }
+
+        //    return result;
+        //}
     }
 }

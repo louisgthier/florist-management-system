@@ -4,6 +4,7 @@ CREATE DATABASE IF NOT EXISTS florist;
 
 SELECT * FROM mysql.user;
 
+SELECT * FROM mysql.role_edges;
 
 -- Drop all roles
 DELETE FROM mysql.role_edges WHERE FROM_HOST != "fuiadhazufegiadzg";
@@ -52,7 +53,7 @@ price INT
 
 CREATE TABLE purchase_order (
 id INT PRIMARY KEY AUTO_INCREMENT,
-delivery_adress VARCHAR(50),
+delivery_address VARCHAR(50),
 message VARCHAR(50),
 delivery_date DATETIME,
 order_date DATETIME,
@@ -100,5 +101,6 @@ FOREIGN KEY (id) REFERENCES shop (id)
 
 CREATE ROLE IF NOT EXISTS florist_client;
 GRANT SELECT ON florist.standard_bouquet TO florist_client;
+GRANT SELECT ON florist.purchase_order TO florist_client;
 
 
