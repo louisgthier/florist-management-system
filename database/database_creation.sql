@@ -50,6 +50,11 @@ id INT PRIMARY KEY ,
 price INT
 );
 
+CREATE TABLE shop (
+id INT PRIMARY KEY AUTO_INCREMENT,
+address VARCHAR(50)
+);
+
 CREATE TABLE purchase_order (
 id INT PRIMARY KEY AUTO_INCREMENT,
 delivery_adress VARCHAR(50),
@@ -60,9 +65,11 @@ order_state VARCHAR(4),
 client_id INT,
 arrangement_id INT,
 bouquet_name VARCHAR(50),
+shop_id INT,
 FOREIGN KEY (client_id) REFERENCES client (id),
 FOREIGN KEY (arrangement_id) REFERENCES flower_arrangement (id),
-FOREIGN KEY (bouquet_name) REFERENCES standard_bouquet (name)
+FOREIGN KEY (bouquet_name) REFERENCES standard_bouquet (name),
+FOREIGN KEY (shop_id) REFERENCES shop(id)
 );
 
 
@@ -73,10 +80,7 @@ type VARCHAR(1),
 availability VARCHAR(50)
 );
 
-CREATE TABLE shop (
-id INT PRIMARY KEY AUTO_INCREMENT,
-address VARCHAR(50)
-);
+
 
 CREATE TABLE arrangement_contains (
 
