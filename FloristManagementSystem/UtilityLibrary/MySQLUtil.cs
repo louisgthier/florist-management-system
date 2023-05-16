@@ -2,12 +2,21 @@
 using MySql.Data.MySqlClient;
 using System.Threading;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using MySqlX.XDevAPI.Common;
 
 namespace UtilityLibrary
 {
 	public static partial class MySQLUtil
 	{
         private static string connectionString = "";
+        private static int connectedClientId = -1;
+        public static int ConnectedClientId
+        {
+            get
+            {
+                return connectedClientId;
+            }
+        }
 
         public static void StartConnection(string server, int port, string database, string uid, string password)
 		{
@@ -35,6 +44,10 @@ namespace UtilityLibrary
                     Thread.Sleep(2000);
                     //Console.ReadKey();
                 }
+            }
+            if (success)
+            {
+                connectedClientId = GetClientId();
             }
             return success;
         }
@@ -235,7 +248,6 @@ namespace UtilityLibrary
                     result = new List<StandardBouquet>();
 
 
-                    string marque;
                     while (reader.Read())// parcourt ligne par ligne
                     {
                         result.Add(new StandardBouquet(reader.GetString(0), reader.GetString(1), float.Parse(reader.GetString(2)), reader.GetString(3)));
@@ -292,34 +304,67 @@ namespace UtilityLibrary
             }
         }
 
-        //public static List<PurchaseOrder> GetPurchaseOrders()
-        //{
-        //    List<PurchaseOrder> result = null;
-        //    using (MySqlConnection connection = new MySqlConnection(connectionString))
-        //    {
-        //        connection.Open();
+        public static List<PurchaseOrder> GetPurchaseOrders(int? clientId=null)
+        {
+            List<PurchaseOrder> result = null;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
 
-        //        // Create a MySqlCommand object
-        //        using (MySqlCommand command = connection.CreateCommand())
-        //        {
-        //            command.CommandText =
-        //                "SELECT * FROM standard_bouquet;";
+                // Create a MySqlCommand object
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    if (clientId is not null)
+                    {
+                        command.CommandText =
+                        "SELECT * FROM purchase_order WHERE purchase_order.client_id = " + clientId.ToString() + ";";
+                    }
+                    else
+                    {
+                        command.CommandText =
+                        "SELECT * FROM purchase_order;";
+                    }
 
-        //            MySqlDataReader reader;
-        //            reader = command.ExecuteReader();
+                    MySqlDataReader reader;
+                    reader = command.ExecuteReader();
 
-        //            result = new List<PurchaseOrder>();
+                    result = new List<PurchaseOrder>();
 
 
-        //            string marque;
-        //            while (reader.Read())// parcourt ligne par ligne
-        //            {
-        //                result.Add(new StandardBouquet(reader.GetString(0), reader.GetString(1), float.Parse(reader.GetString(2)), reader.GetString(3)));
-        //            }
-        //        }
-        //    }
+                    while (reader.Read())// parcourt ligne par ligne
+                    {
+                        result.Add(new PurchaseOrder(reader.GetInt32(0), reader.GetString(1), reader.GetString(2),
+                            reader.GetDateTime(3), reader.GetDateTime(4),
+                            reader.GetString(5), reader.GetInt32(6), reader.IsDBNull(7) ? null: reader.GetInt32(7), reader.GetString(8)));
+                    }
+                }
+            }
 
-        //    return result;
-        //}
+            result = result.OrderByDescending(x => x.OrderDate).ToList();
+
+            return result;
+        }
+
+        public static int GetClientId()
+        {
+            int result = -1;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (MySqlCommand command = new MySqlCommand("get_client_id", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@client_id", MySqlDbType.Int32);
+                    command.Parameters["@client_id"].Direction = ParameterDirection.Output;
+
+                    command.ExecuteNonQuery();
+
+                    result = Convert.ToInt32(command.Parameters["@client_id"].Value);
+                }
+            }
+
+            return result;
+        }
     }
 }

@@ -140,3 +140,21 @@ DELIMITER ;
 GRANT EXECUTE ON PROCEDURE florist.order_standard_bouquet TO florist_client;
 
 SELECT * FROM florist.purchase_order;
+
+
+-- Procedure to check if an email is valid and if it exists in the database
+DROP PROCEDURE IF EXISTS get_client_id;
+DELIMITER //
+CREATE PROCEDURE IF NOT EXISTS get_client_id(OUT client_id INT)
+BEGIN
+
+    SELECT id INTO client_id
+    FROM client
+    WHERE CONCAT(email, "@localhost") = USER();
+
+END //
+DELIMITER ;
+GRANT EXECUTE ON PROCEDURE florist.get_client_id TO florist_client;
+
+
+SELECT * FROM florist.purchase_order;

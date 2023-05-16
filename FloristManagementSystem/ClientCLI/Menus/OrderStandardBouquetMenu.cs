@@ -23,7 +23,7 @@ namespace ClientCLI.Menus
             }
         }
 
-        public override async void Show(string message = null)
+        public override Menu Show()
         {
 
             List<StandardBouquet> bouquets = MySQLUtil.GetStandardBouquets();
@@ -55,15 +55,25 @@ namespace ClientCLI.Menus
             }
 
             if (selectedOption == 0)
-                Program.MainMenu.Show();
+            {
+                return Program.MainMenu;
+            }
 
             StandardBouquet selectedBouquet = bouquets[(int)selectedOption - 1];
 
-            string deliveryAddress = RequestString("Delivery address:");
-            string messageForDesigner = RequestString("Message for the bouquet designer:");
-            string deliveryDate = RequestString("Delivery date (AAAA-MM-DD):", x => MySQLUtil.CheckDate(x,DateTime.Now));
+            string deliveryAddress;
+            if (!RequestString("Delivery address:", out deliveryAddress))
+                return Program.MainMenu;
+            string messageForDesigner;
+            if (!RequestString("Message for the bouquet designer:", out messageForDesigner))
+                return Program.MainMenu;
+            string deliveryDate;
+            if (!RequestString("Delivery date (AAAA-MM-DD):", out deliveryDate, x => MySQLUtil.CheckDate(x,DateTime.Now)))
+                return Program.MainMenu;
 
-            string confirm = RequestString("Confirm order (Y/N):", inputValidator: x => (x.ToLower() == "y" || x.ToLower() == "n", "Incorrect option"));
+            string confirm;
+            if (!RequestString("Confirm order (Y/N):", out confirm, inputValidator: x => (x.ToLower() == "y" || x.ToLower() == "n", "Incorrect option")))
+                return Program.MainMenu;
 
             
 
@@ -80,7 +90,7 @@ namespace ClientCLI.Menus
                 Console.WriteLine("You order has been cancelled");
             }
             Thread.Sleep(2000);
-            Program.MainMenu.Show();
+            return Program.MainMenu;
             
 
         }

@@ -9,35 +9,49 @@ namespace ClientCLI.Menus
 		public RegisterMenu(): base("Register")
 		{ }
 
-		public override async void Show(string message=null)
+		public override Menu Show()
 		{
 
-			string email = RequestString("Enter email:", inputValidator: MySQLUtil.CheckEmailAvailable);
+            string email;
+            if (!RequestString("Enter email:", out email, inputValidator: MySQLUtil.CheckEmailAvailable))
+                return Program.MainMenu;
 
             string password;
             string passwordConfirmation = null;
 
             do
             {
-                password = RequestString((passwordConfirmation != null ? "Passwords were not the same\n" : "") + "Enter a new password for " + email + ":", inputValidator: x => MySQLUtil.CheckLength(x, 8));
-                passwordConfirmation = RequestString("Confirm password:");
+                if (!RequestString((passwordConfirmation != null ? "Passwords were not the same\n" : "") + "Enter a new password for " + email + ":", out password, inputValidator: x => MySQLUtil.CheckLength(x, 8)))
+                    return Program.MainMenu;
+                if (!RequestString("Confirm password:", out passwordConfirmation))
+                    return Program.MainMenu;
             } while (passwordConfirmation != password);
 
-            string prenom = RequestString("Enter your first name:");
+            string prenom;
+            if (!RequestString("Enter your first name:", out prenom))
+                return Program.MainMenu;
 
-            string nom = RequestString("Enter your last name:");
+            string nom;
+            if (!RequestString("Enter your last name:", out nom))
+                return Program.MainMenu;
 
-            string numTel = RequestString("Enter your phone number:");
+            string numTel;
+            if (!RequestString("Enter your phone number:", out numTel))
+                return Program.MainMenu;
 
-            string adresse = RequestString("Enter your adresse:");
+            string address;
+            if (!RequestString("Enter your adresse:", out address))
+                return Program.MainMenu;
 
-			string numCb = RequestString("Enter your credit card number:");
+            string numCb;
+            if (!RequestString("Enter your credit card number:", out numCb))
+                return Program.MainMenu;
 
-            MySQLUtil.RegisterClient(email, password, nom, prenom, numTel, adresse, numCb);
+            MySQLUtil.RegisterClient(email, password, nom, prenom, numTel, address, numCb);
 
             Thread.Sleep(2000);
 
-            Program.MainMenu.Show();
+            return Program.MainMenu; ;
 
 		}
 	}

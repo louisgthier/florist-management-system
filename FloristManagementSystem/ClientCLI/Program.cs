@@ -22,13 +22,18 @@ Menus[MenuID.Order].options.Add(Menus[MenuID.OrderStandardBouquet]);
 Menus[MenuID.Order].options.Add(Menus[MenuID.OrderFlowerArrangement]);
 
 Menus[MenuID.MainMenuAuthenticated].options.Add(Menus[MenuID.Order]);
-Menus[MenuID.MainMenuAuthenticated].options.Add(new Menu("History"));
+Menus[MenuID.MainMenuAuthenticated].options.Add(new OrderHistoryMenu());
 Menus[MenuID.MainMenuAuthenticated].options.Add(new Menu("Fidelity status"));
 
 
 MySQLUtil.StartConnection("localhost", 3306, "florist", "florist_user", "password");
 
-Menus[MenuID.MainMenu].Show();
+
+Menu next = Menus[MenuID.MainMenu];
+while (next != null)
+{
+    next = next.Show();
+}
 
 static partial class Program
 {

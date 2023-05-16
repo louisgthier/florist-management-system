@@ -9,4 +9,10 @@
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.33" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Entities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entities\" />
+  </ItemGroup>
 </Project>

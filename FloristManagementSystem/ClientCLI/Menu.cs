@@ -7,6 +7,7 @@ namespace ClientCLI
 	{
 		public List<Menu> options;
 		public string name;
+        public string message = null;
 
         const string CancelString = "<CANCEL>";
 
@@ -30,13 +31,14 @@ namespace ClientCLI
             }
         }
 
-		public virtual void Show(string message=null)
+		public virtual Menu Show()
 		{
 			PrintMenu();
 
             if (message != null)
             {
                 Console.WriteLine(message);
+                message = null;
             }
 
 			int? selectedOption = null;
@@ -63,10 +65,10 @@ namespace ClientCLI
                 PrintMenu();
                 Console.WriteLine("\nIncorrect option!");
             }
-            options[(int) selectedOption - 1].Show();
+            return options[(int) selectedOption - 1];
         }
 
-		public string RequestString(string prompt, Func<string, (bool, string)> inputValidator = null)
+		public bool RequestString(string prompt, out string result, Func<string, (bool, string)> inputValidator = null, bool clearConsole=true, bool showName=true)
 		{
             string input;
 
@@ -76,9 +78,13 @@ namespace ClientCLI
             {
                 input = "";
                 // Clear console
-                Console.Clear();
+                if (clearConsole)
+                    Console.Clear();
 
-                Console.WriteLine(name);
+                if (showName)
+                    Console.WriteLine(name);
+
+
                 if (inputValidation.Item2 != "")
                 {
                     Console.WriteLine(inputValidation.Item2);
@@ -93,8 +99,8 @@ namespace ClientCLI
                     if (key.Key == ConsoleKey.Escape)
                     {
                         Console.WriteLine("\nInput cancelled.");
-                        Program.MainMenu.Show();
-                        return CancelString;
+                        result = input;
+                        return false;
                     }
                     else if (key.Key == ConsoleKey.Enter)
                     {
@@ -119,7 +125,8 @@ namespace ClientCLI
                 inputValidation = inputValidator is null ? (true, "") : inputValidator(input);
             } while (inputValidator != null && inputValidation.Item1 == false);
 
-            return input;
+            result = input;
+            return true;
 		}
 	}
 }
