@@ -6,7 +6,7 @@ SELECT * FROM mysql.role_edges;
 -- Procedure to check if an email is valid and if it exists in the database
 DROP PROCEDURE IF EXISTS check_email;
 DELIMITER //
-CREATE PROCEDURE IF NOT EXISTS check_email(IN email_param VARCHAR(255), OUT is_valid BOOLEAN, OUT email_exists BOOLEAN)
+CREATE PROCEDURE check_email(IN email_param VARCHAR(255), OUT is_valid BOOLEAN, OUT email_exists BOOLEAN)
 BEGIN
     DECLARE count INT;
     DECLARE pattern VARCHAR(255);

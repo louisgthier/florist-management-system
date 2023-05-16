@@ -87,18 +87,19 @@ CREATE TABLE arrangement_contains (
 
 arrangement_id INT NOT NULL,
 item_name VARCHAR(50) NOT NULL,
+quantity INT,
 PRIMARY KEY (arrangement_id, item_name),
 FOREIGN KEY (arrangement_id) REFERENCES flower_arrangement (id),
 FOREIGN KEY (item_name) REFERENCES item (name)
 );
 
 CREATE TABLE is_stored (
-name VARCHAR(50) NOT NULL,
-id INT NOT NULL,
+item_name VARCHAR(50) NOT NULL,
+shop_id INT NOT NULL,
 quantity INT,
-PRIMARY KEY (name, id),
-FOREIGN KEY (name) REFERENCES item (name),
-FOREIGN KEY (id) REFERENCES shop (id)
+PRIMARY KEY (item_name,shop_id),
+FOREIGN KEY (item_name) REFERENCES item (name),
+FOREIGN KEY (shop_id) REFERENCES shop (id)
 );
 
 -- Manage client privileges
