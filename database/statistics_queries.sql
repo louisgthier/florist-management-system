@@ -1,4 +1,5 @@
 -- prix moyen bouquet standard
+USE florist;
 SELECT SUM(standard_bouquet.price),COUNT(standard_bouquet.price)
 FROM standard_bouquet JOIN purchase_order 
 ON purchase_order.bouquet_name = standard_bouquet.name;
@@ -9,6 +10,7 @@ FROM flower_arrangement JOIN purchase_order
 ON flower_arrangement.id=purchase_order.arrangement_id;
 
 -- prix moyen bouquet tout confondu
+USE florist;
 SELECT (SUM(standard_bouquet.price)+SUM(flower_arrangement.price))/(COUNT(flower_arrangement.price)+COUNT(standard_bouquet.price))
 FROM standard_bouquet JOIN purchase_order JOIN flower_arrangement
 ON purchase_order.bouquet_name = standard_bouquet.name OR flower_arrangement.id=purchase_order.arrangement_id;
