@@ -105,6 +105,7 @@ CREATE PROCEDURE IF NOT EXISTS order_standard_bouquet(
     IN message_param VARCHAR(50),
     IN delivery_date_param DATETIME,
     IN bouquet_name_param VARCHAR(50),
+    IN shop_id_param INT,
     OUT success BOOLEAN
 )
 BEGIN
@@ -123,8 +124,8 @@ BEGIN
 
     IF bouquet_exists = 1 AND client_id_param IS NOT NULL THEN
         -- Insert the new purchase order
-        INSERT INTO purchase_order (delivery_address, message, delivery_date, order_date, order_state, client_id, bouquet_name)
-        VALUES (delivery_address_param, message_param, delivery_date_param, NOW(), 'CC', client_id_param, bouquet_name_param);
+        INSERT INTO purchase_order (delivery_address, message, delivery_date, order_date, order_state, client_id, bouquet_name, shop_id)
+        VALUES (delivery_address_param, message_param, delivery_date_param, NOW(), 'CC', client_id_param, bouquet_name_param, shop_id_param);
 
         SET success = 1;
         SELECT 'Purchase order created' AS result;
@@ -155,6 +156,3 @@ BEGIN
 END //
 DELIMITER ;
 GRANT EXECUTE ON PROCEDURE florist.get_client_id TO florist_client;
-
-
-SELECT * FROM florist.purchase_order;

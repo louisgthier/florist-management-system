@@ -26,6 +26,16 @@ namespace ClientCLI.Menus
             Console.WriteLine("Delivery address: " + order.DeliveryAddress);
             Console.WriteLine("Designer message: " + order.Message);
 
+            if (order.BouquetName is not null)
+            {
+                Console.WriteLine("Bouquet standard: " + order.BouquetName);
+            }
+            else
+            {
+                //MySQLUtil.Get
+                //foreach ()
+            }
+
             Console.WriteLine();
             RequestString("<Esc> to exit", out string _, clearConsole: false, showName: false);
 

@@ -71,15 +71,30 @@ namespace ClientCLI.Menus
             if (!RequestString("Delivery date (AAAA-MM-DD):", out deliveryDate, x => MySQLUtil.CheckDate(x,DateTime.Now)))
                 return Program.MainMenu;
 
+            string shopIdString;
+            if (!RequestString("Enter shop id:", out shopIdString,
+                x => {
+                    int y;
+                    if (!int.TryParse(x, out y) || y < 1 || y > 11)
+                    {
+                        return (false, "Wrong shop id (should be between 1 and 11)");
+                    }
+                    return (true, "");
+                   
+                }))
+                return Program.MainMenu;
+            int shopId = int.Parse(shopIdString);
+
             string confirm;
             if (!RequestString("Confirm order (Y/N):", out confirm, inputValidator: x => (x.ToLower() == "y" || x.ToLower() == "n", "Incorrect option")))
                 return Program.MainMenu;
+
 
             
 
             if (confirm.ToLower() == "y")
             {
-                bool result = MySQLUtil.OrderStandardBouquet(selectedBouquet, deliveryAddress, messageForDesigner, deliveryDate);
+                bool result = MySQLUtil.OrderStandardBouquet(selectedBouquet, deliveryAddress, messageForDesigner, deliveryDate, shopId);
                 if (result)
                     Console.WriteLine("You order has been sent to the shop");
                 else

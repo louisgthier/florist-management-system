@@ -12,8 +12,9 @@ namespace UtilityLibrary
         public int ClientId { get; set; }
         public int? ArrangementId { get; set; }
         public string BouquetName { get; set; }
+        public int ShopId { get; set; }
 
-        public PurchaseOrder(int id, string deliveryAddress, string message, DateTime deliveryDate, DateTime orderDate, string orderState, int clientId, int? arrangementId, string bouquetName)
+        public PurchaseOrder(int id, string deliveryAddress, string message, DateTime deliveryDate, DateTime orderDate, string orderState, int clientId, int? arrangementId, string bouquetName, int shopId)
         {
             Id = id;
             DeliveryAddress = deliveryAddress;
@@ -24,6 +25,7 @@ namespace UtilityLibrary
             ClientId = clientId;
             ArrangementId = arrangementId;
             BouquetName = bouquetName;
+            ShopId = shopId;
         }
     }
 }

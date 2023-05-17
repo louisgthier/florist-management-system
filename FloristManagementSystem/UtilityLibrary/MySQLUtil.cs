@@ -258,7 +258,7 @@ namespace UtilityLibrary
             return result;
         }
 
-        public static bool OrderStandardBouquet(StandardBouquet bouquet, string deliveryAddress, string message, string deliveryDate)
+        public static bool OrderStandardBouquet(StandardBouquet bouquet, string deliveryAddress, string message, string deliveryDate, int shopId)
         {
             if (connectionString == "")
             {
@@ -283,6 +283,7 @@ namespace UtilityLibrary
                     command.Parameters.AddWithValue("@message_param", message);
                     command.Parameters.AddWithValue("@delivery_date_param", deliveryDate);
                     command.Parameters.AddWithValue("@bouquet_name_param", bouquet.Name);
+                    command.Parameters.AddWithValue("@shop_id_param", shopId);
 
                     // Output parameters
                     command.Parameters.Add("@success", MySqlDbType.Int32);
@@ -333,9 +334,13 @@ namespace UtilityLibrary
 
                     while (reader.Read())// parcourt ligne par ligne
                     {
+                        reader.GetString(8);
+                        reader.GetInt32(9);
+                        reader.GetString(5);
+                        reader.GetDateTime(4);
                         result.Add(new PurchaseOrder(reader.GetInt32(0), reader.GetString(1), reader.GetString(2),
                             reader.GetDateTime(3), reader.GetDateTime(4),
-                            reader.GetString(5), reader.GetInt32(6), reader.IsDBNull(7) ? null: reader.GetInt32(7), reader.GetString(8)));
+                            reader.GetString(5), reader.GetInt32(6), reader.IsDBNull(7) ? null: reader.GetInt32(7), reader.IsDBNull(8) ? null : reader.GetString(8), reader.GetInt32(9)));
                     }
                 }
             }
@@ -361,6 +366,41 @@ namespace UtilityLibrary
                     command.ExecuteNonQuery();
                     if (command.Parameters["@client_id"].Value is not DBNull)
                         result = Convert.ToInt32(command.Parameters["@client_id"].Value);
+                }
+            }
+
+            return result;
+        }
+
+        public static List<(Item, int)> GetItemsOfArrangement(int arrangementId)
+        {
+            List<(Item, int)> result = null;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // Create a MySqlCommand object
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText =
+                    "SELECT * FROM arrangement_contains WHERE arrangement_id = " + arrangementId.ToString() + ";";
+                    
+
+                    MySqlDataReader reader;
+                    reader = command.ExecuteReader();
+
+                    result = new List<(Item, int)>();
+
+
+                    while (reader.Read())// parcourt ligne par ligne
+                    {
+                        int quantity = reader.GetInt32(2);
+                        string itemName = reader.GetString(1);
+
+                        new Item(reader.GetString(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3));
+                        // ToDo
+                        //result.Add(());
+                    }
                 }
             }
 

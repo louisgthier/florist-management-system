@@ -107,5 +107,6 @@ FOREIGN KEY (shop_id) REFERENCES shop (id)
 CREATE ROLE IF NOT EXISTS florist_client;
 GRANT SELECT ON florist.standard_bouquet TO florist_client;
 GRANT SELECT ON florist.purchase_order TO florist_client;
-
+GRANT SELECT ON florist.arrangement_contains TO florist_client;
+GRANT SELECT ON florist.item TO florist_client;
 
