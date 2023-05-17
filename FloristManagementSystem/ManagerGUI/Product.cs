@@ -14,9 +14,11 @@ namespace ManagerGUI
 {
     public partial class Product : Form
     {
+        private ManagerMenu managerForm;
         List<Item> listProducts = new List<Item>();
-        public Product()
+        public Product(ManagerMenu managerForm)
         {
+            this.managerForm = managerForm;
             InitializeComponent();
         }
 
@@ -33,7 +35,7 @@ namespace ManagerGUI
 
             foreach (Item product in listProducts)
             {
-                ProductTable.Rows.Add(new string[] { product.Name.ToString(), product.Price.ToString(), product.Type.ToString(), product.Availability.ToString() }); 
+                ProductTable.Rows.Add(new string[] { product.Name.ToString(), product.Price.ToString(), product.Type.ToString(), product.Availability.ToString() });
             }
 
         }
@@ -41,6 +43,12 @@ namespace ManagerGUI
         private void ProductTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            managerForm.Show();
+            this.Close();
         }
     }
 }

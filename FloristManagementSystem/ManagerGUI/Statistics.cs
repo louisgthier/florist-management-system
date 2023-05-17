@@ -29,23 +29,25 @@ namespace ManagerGUI
 
         private void Statistics_Load(object sender, EventArgs e)
         {
-            dataGridView1.ColumnCount = 6;
-            dataGridView1.Columns[0].Name = "client du mois";
-            dataGridView1.Columns[1].Name = "client de l'année";
-            dataGridView1.Columns[2].Name = "prix moyen bouquet";
-            dataGridView1.Columns[3].Name = "meilleur bouquet";
-            dataGridView1.Columns[4].Name = "magasin avec le plus gros CA";
-            dataGridView1.Columns[5].Name = "fleur la moins vendu";
-            dataGridView1.Dock = DockStyle.Fill; // Ajuste le contrôle pour remplir tout l'espace du formulaire
 
-            for (int i = 0; i < 6; i++) {
-                dataGridView1.Rows[0].Cells[i].Value= MySQLUtil.Statistics(i); 
-            }
+            label1.Text = "Statistiques:\n\n";
+
+            label1.Text += "Prix moyen tous bouquets confondus: " + MySQLUtil.GetStatistics(0);
+            label1.Text += "\n\nClient du mois: " + MySQLUtil.GetStatistics(1);
+            label1.Text += "\n\nClient de l'année: " + MySQLUtil.GetStatistics(2);
+            label1.Text += "\n\nBouquet standard le plus vendu: " + MySQLUtil.GetStatistics(3);
+            label1.Text += "\n\nMagasin avec le plus gros chiffre d'affaires: " + MySQLUtil.GetStatistics(4);
+            label1.Text += "\n\nFleur la moins vendue: " + MySQLUtil.GetStatistics(5);
 
 
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

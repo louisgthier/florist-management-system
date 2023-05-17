@@ -67,7 +67,7 @@ namespace ManagerGUI
         private void button2_Click_1(object sender, EventArgs e)
         {
             // Création de la deuxième page
-            Product form4 = new Product();
+            Product form4 = new Product(this);
             form4.Show();
             this.Hide();
         }
