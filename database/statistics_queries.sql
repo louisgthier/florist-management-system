@@ -15,6 +15,17 @@ SELECT (SUM(standard_bouquet.price)+SUM(flower_arrangement.price))/(COUNT(flower
 FROM standard_bouquet JOIN purchase_order JOIN flower_arrangement
 ON purchase_order.bouquet_name = standard_bouquet.name OR flower_arrangement.id=purchase_order.arrangement_id;
 
+SELECT AVG(price) AS PrixMoyen
+FROM
+(
+   SELECT price FROM standard_bouquet JOIN purchase_order
+   ON purchase_order.bouquet_name = standard_bouquet.name
+   UNION ALL
+   SELECT price FROM flower_arrangement
+) AS Bouquets;
+
+SELECT * FROM STANDARD_BOUQUET;
+
 -- client du mois
 SELECT COUNT(purchase_order.id), client.id, client.first_name, client.name
 FROM client

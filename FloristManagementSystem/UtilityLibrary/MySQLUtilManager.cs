@@ -5,6 +5,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using UtilityLibrary;
 using MySqlX.XDevAPI.Common;
 using System.Xml;
+using System.Linq.Expressions;
 
 namespace UtilityLibrary
 {
@@ -122,6 +123,78 @@ namespace UtilityLibrary
                     xmlDocument.Save("clients.xml");
                 }
             }
+        }
+        public static string GetStatistics(int nbr)
+        {
+            string valueString = "";
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+               
+                // Create a MySqlCommand object
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    string requete = "";
+                    switch (nbr)
+                    {
+                        case 0:
+                            // Prix moyen de toutes les commandes
+                            requete = "SELECT AVG(price) AS PrixMoyen\r\nFROM\r\n(\r\n   SELECT price FROM standard_bouquet JOIN purchase_order\r\n   ON purchase_order.bouquet_name = standard_bouquet.name\r\n   UNION ALL\r\n   SELECT price FROM flower_arrangement\r\n) AS Bouquets;";
+                            break;
+                        case 1:
+                            // Client du mois
+                            requete = "SELECT COUNT(purchase_order.id), client.id, client.first_name, client.name FROM client JOIN purchase_order ON client.id = purchase_order.client_id WHERE EXTRACT(YEAR FROM purchase_order.order_date) = EXTRACT(YEAR FROM NOW()) GROUP BY client.id, client.first_name, client.name ORDER BY COUNT(purchase_order.id) DESC LIMIT 10;";
+
+                            break;
+                        case 2:
+                            // Client de l'année
+                            requete = "SELECT COUNT(purchase_order.id), client.id, client.first_name, client.name\r\nFROM client\r\nJOIN purchase_order ON client.id = purchase_order.client_id\r\nWHERE EXTRACT(YEAR FROM purchase_order.order_date) = EXTRACT(YEAR FROM NOW())\r\nGROUP BY client.id, client.first_name, client.name\r\nORDER BY COUNT(purchase_order.id) DESC\r\nLIMIT 10;";
+                            break;
+                        case 3:
+                            // Bouquet standard le plus acheté
+                            requete = "SELECT COUNT(purchase_order.id),standard_bouquet.name\r\nFROM standard_bouquet\r\nJOIN purchase_order ON standard_bouquet.name = purchase_order.bouquet_name\r\nGROUP BY standard_bouquet.name\r\nORDER BY COUNT(purchase_order.id) DESC\r\nLIMIT 10;";
+                            break;
+                        case 4:
+                            // Magasin avec le plus gros chiffre d'affaire
+                            requete = "SELECT shop.address,SUM(standard_bouquet.price)\r\nFROM shop JOIN standard_bouquet JOIN purchase_order\r\nON shop.id=purchase_order.shop_id AND purchase_order.bouquet_name=standard_bouquet.name\r\nGROUP BY shop.address\r\nORDER BY SUM(standard_bouquet.price) DESC\r\nLIMIT 10;";
+                            break;
+                        case 5:
+                            // Fleur la moins vendure
+                            requete = "SELECT item_name, sum(quantity)\r\nFROM arrangement_contains JOIN item\r\nON arrangement_contains.item_name=item.name\r\nWHERE item.type='f'\r\nGROUP BY item_name\r\nORDER BY SUM(quantity)\r\nLIMIT 10;";
+                            break;
+                        default:
+                            // code block
+                            break;
+                    }
+                    command.CommandText = requete;
+                    MySqlDataReader reader;
+                    reader = command.ExecuteReader();
+                    reader.Read();
+                    switch (nbr)
+                    {
+                        case 1:
+                        case 2:
+                            // Prix moyen de toutes les commandes
+                            valueString += reader.GetString(2) + " " + reader.GetString(3) + " avec " + Convert.ToString(reader.GetInt32(0)) + " achats";
+                            break;
+                        case 3:
+                            valueString += reader.GetString(1) + " avec " + Convert.ToString(reader.GetInt32(0))  + " ventes";
+                            break;
+                        case 4:
+                            valueString += reader.GetString(0) + " avec " + Convert.ToString(reader.GetInt32(1)) + "€";
+                            break;
+                        case 5:
+                            valueString += reader.GetString(0) + " avec " + Convert.ToString(reader.GetInt32(1)) + " ventes";
+                            break;
+                        default:
+                            
+                            valueString += Convert.ToString(reader.GetFloat(0));
+                            break;
+                    }
+                }
+            }
+            return valueString;
+
         }
     }
 }

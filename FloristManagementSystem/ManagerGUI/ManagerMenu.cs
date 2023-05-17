@@ -29,19 +29,11 @@ namespace ManagerGUI
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            // Création de la deuxième page
-            ManagerMenu produits = new ManagerMenu();
-
-            produits.Show();
-            this.Hide();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            // Création de la deuxième page
-            ManagerMenu statistiques = new ManagerMenu();
-            statistiques.Show();
-            this.Hide();
+
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -63,5 +55,22 @@ namespace ManagerGUI
             /*commandes.Show();
             this.Hide();*/
         }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            // Création de la deuxième page
+            Statistics form1 = new Statistics(this);
+            form1.Show();
+            this.Hide();
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            // Création de la deuxième page
+            Product form4 = new Product(this);
+            form4.Show();
+            this.Hide();
+        }
+        
     }
 }

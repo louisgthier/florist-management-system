@@ -30,14 +30,18 @@
         {
             dataGridView1 = new DataGridView();
             button1 = new Button();
+            export_xml_button = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(1, -1);
             dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.Size = new Size(1092, 489);
             dataGridView1.TabIndex = 0;
@@ -53,11 +57,22 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // export_xml_button
+            // 
+            export_xml_button.Location = new Point(1131, 252);
+            export_xml_button.Name = "export_xml_button";
+            export_xml_button.Size = new Size(109, 29);
+            export_xml_button.TabIndex = 2;
+            export_xml_button.Text = "Export XML";
+            export_xml_button.UseVisualStyleBackColor = true;
+            export_xml_button.Click += export_xml_button_Click;
+            // 
             // Clients
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 487);
+            Controls.Add(export_xml_button);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
             Name = "Clients";
@@ -71,5 +86,6 @@
 
         private DataGridView dataGridView1;
         private Button button1;
+        private Button export_xml_button;
     }
 }

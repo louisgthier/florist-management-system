@@ -67,5 +67,10 @@ namespace ManagerGUI
             managerForm.Show();
             this.Close();
         }
+
+        private void export_xml_button_Click(object sender, EventArgs e)
+        {
+            MySQLUtil.ExportClientsToXML();
+        }
     }
 }

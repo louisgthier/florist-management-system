@@ -76,7 +76,7 @@ namespace ManagerGUI
         {
             if (e.RowIndex >= 0)
             {
-               selectedOrderIndex = e.RowIndex;
+                selectedOrderIndex = e.RowIndex;
 
             }
         }
