@@ -17,7 +17,6 @@ VALUES
 ('Dubois', 'Antoine', 'antoine.dubois@yahoo.fr', 0234567890, '19 Rue de la Mairie, Rennes', 2345678901234567, '2020-11-22');
 
 INSERT INTO standard_bouquet (name, description, price, category) VALUES 
--- (null,null,null,null),
 ('Gros Merci', 'Arrangement floral avec marguerites et verdure', 45, 'Toute occasion'),
 ('L’amoureux', 'Arrangement floral avec roses blanches et roses rouges', 65, 'St-Valentin'),
 ('L’Exotique', 'Arrangement floral avec ginger oiseaux du paradis roses et genet', 40, 'Toute occasion'),

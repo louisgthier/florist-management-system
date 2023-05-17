@@ -5,6 +5,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using UtilityLibrary;
 using MySqlX.XDevAPI.Common;
 using System.Xml;
+using System.Linq.Expressions;
 
 namespace UtilityLibrary
 {
@@ -122,6 +123,51 @@ namespace UtilityLibrary
                     xmlDocument.Save("clients.xml");
                 }
             }
+        }
+        public static string Statistics(int nbr)
+        {
+            string valueString = "";
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+               
+                // Create a MySqlCommand object
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    string requete = "";
+                    switch (nbr)
+                    {
+                        case 0:
+                            requete += "SELECT COUNT(purchase_order.id) FROM client JOIN purchase_order ON client.id = purchase_order.client_id WHERE EXTRACT(MONTH FROM purchase_order.order_date) = EXTRACT(MONTH FROM NOW())  AND EXTRACT(YEAR FROM purchase_order.order_date) = EXTRACT(YEAR FROM NOW())  GROUP BY client.id, client.first_name, client.name ORDER BY COUNT(purchase_order.id) DESC LIMIT 1;";
+                            break;
+                        case 1:
+                            requete += "SELECT COUNT(purchase_order.id), client.id, client.first_name, client.name FROM client JOIN purchase_order ON client.id = purchase_order.client_id WHERE EXTRACT(YEAR FROM purchase_order.order_date) = EXTRACT(YEAR FROM NOW()) GROUP BY client.id, client.first_name, client.name ORDER BY COUNT(purchase_order.id) DESC LIMIT 10;";
+
+                            break;
+                        case 2:
+                            requete += "SELECT AVG(price) AS PrixMoyen FROM(    SELECT price FROM standard_bouquet JOIN purchase_order    ON purchase_order.bouquet_name = standard_bouquet.name    UNION ALL    SELECT price FROM flower_arrangement    ) AS Bouquets;";
+                            break;
+                        case 3:
+                            requete += "SELECT COUNT(purchase_order.id),standard_bouquet.name FROM standard_bouquet JOIN purchase_order ON standard_bouquet.name = purchase_order.bouquet_name GROUP BY standard_bouquet.name ORDER BY COUNT(purchase_order.id) DESC LIMIT 1; ";
+                            break;
+                        case 4:
+                            requete += "SELECT shop.address,SUM(standard_bouquet.price) FROM shop JOIN standard_bouquet JOIN purchase_order ON shop.id=purchase_order.shop_id AND purchase_order.bouquet_name=standard_bouquet.name GROUP BY shop.address ORDER BY SUM(standard_bouquet.price) DESC LIMIT 1;";
+                            break;
+                        case 5:
+                            requete += "SELECT item_name, sum(quantity) FROM arrangement_contains JOIN item ON arrangement_contains.item_name=item.name WHERE item.type='f' GROUP BY item_name ORDER BY SUM(quantity) LIMIT 10;";
+                            break;
+                        default:
+                            // code block
+                            break;
+                    }
+                    command.CommandText = requete;
+                    MySqlDataReader reader;
+                    reader = command.ExecuteReader();
+                    valueString+= Convert.ToString(reader.FieldCount);
+                }
+            }
+            return valueString;
+
         }
     }
 }

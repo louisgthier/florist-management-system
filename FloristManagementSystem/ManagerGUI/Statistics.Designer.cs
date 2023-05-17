@@ -1,6 +1,6 @@
 ﻿namespace ManagerGUI
 {
-    partial class Clients
+    partial class Statistics
     {
         /// <summary>
         /// Required designer variable.
@@ -30,51 +30,39 @@
         {
             dataGridView1 = new DataGridView();
             button1 = new Button();
-            export_xml_button = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(1, -1);
+            dataGridView1.Location = new Point(126, 140);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(1092, 489);
+            dataGridView1.Size = new Size(300, 188);
             dataGridView1.TabIndex = 0;
-            dataGridView1.CellClick += dataGridView1_CellClick;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // button1
             // 
-            button1.Location = new Point(1131, 378);
+            button1.Location = new Point(602, 368);
             button1.Name = "button1";
-            button1.Size = new Size(109, 29);
+            button1.Size = new Size(111, 29);
             button1.TabIndex = 1;
-            button1.Text = "retour menu";
+            button1.Text = "Retour menu";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // export_xml_button
-            // 
-            export_xml_button.Location = new Point(1131, 252);
-            export_xml_button.Name = "export_xml_button";
-            export_xml_button.Size = new Size(109, 29);
-            export_xml_button.TabIndex = 2;
-            export_xml_button.Text = "Export XML";
-            export_xml_button.UseVisualStyleBackColor = true;
-            export_xml_button.Click += export_xml_button_Click;
-            // 
-            // Clients
+            // Statistics
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1264, 487);
-            Controls.Add(export_xml_button);
+            ClientSize = new Size(800, 450);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
-            Name = "Clients";
-            Text = "Clients";
-            Load += Clients_Load;
+            Name = "Statistics";
+            Text = "Statistics";
+            Load += Statistics_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
@@ -83,6 +71,5 @@
 
         private DataGridView dataGridView1;
         private Button button1;
-        private Button export_xml_button;
     }
 }

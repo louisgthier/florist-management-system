@@ -66,6 +66,7 @@
             button2.TabIndex = 3;
             button2.Text = "Produits";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click_1;
             // 
             // button3
             // 
@@ -85,6 +86,7 @@
             button4.TabIndex = 5;
             button4.Text = "Statistiques";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click_1;
             // 
             // ManagerMenu
             // 
