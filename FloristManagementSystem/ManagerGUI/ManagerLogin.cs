@@ -1,10 +1,9 @@
 namespace ManagerGUI
-{   using MySql.Data.MySqlClient;
+{
+    using MySql.Data.MySqlClient;
     using System.ComponentModel.Design.Serialization;
     using System.Diagnostics.Eventing.Reader;
     using UtilityLibrary;
-    MySQLConnection connect = new MySQLConnection("localhost", 3306, "florist", 'root', 'root');
-
 
 
     public partial class ManagerLogin : Form
@@ -50,7 +49,7 @@ namespace ManagerGUI
                 MessageBox.Show("Identifiants incorrects !");
             }
         }
-        public void AffichageClient() 
+        public void AffichageClient()
         {
         }
     }

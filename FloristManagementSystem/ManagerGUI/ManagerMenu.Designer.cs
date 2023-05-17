@@ -42,16 +42,17 @@
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(800, 450);
+            pictureBox1.Size = new Size(860, 485);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
             // 
             // button1
             // 
-            button1.Location = new Point(410, 104);
+            button1.Location = new Point(400, 134);
             button1.Name = "button1";
-            button1.Size = new Size(216, 29);
+            button1.Size = new Size(323, 29);
             button1.TabIndex = 2;
             button1.Text = "Clients";
             button1.UseVisualStyleBackColor = true;
@@ -59,42 +60,43 @@
             // 
             // button2
             // 
-            button2.Location = new Point(410, 160);
+            button2.Location = new Point(400, 190);
             button2.Name = "button2";
-            button2.Size = new Size(216, 29);
+            button2.Size = new Size(323, 29);
             button2.TabIndex = 3;
             button2.Text = "Produits";
             button2.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
-            button3.Location = new Point(410, 215);
+            button3.Location = new Point(400, 245);
             button3.Name = "button3";
-            button3.Size = new Size(216, 29);
+            button3.Size = new Size(323, 29);
             button3.TabIndex = 4;
             button3.Text = "Commandes";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click_1;
             // 
             // button4
             // 
-            button4.Location = new Point(410, 274);
+            button4.Location = new Point(400, 304);
             button4.Name = "button4";
-            button4.Size = new Size(216, 29);
+            button4.Size = new Size(323, 29);
             button4.TabIndex = 5;
             button4.Text = "Statistiques";
             button4.UseVisualStyleBackColor = true;
             // 
-            // Form2
+            // ManagerMenu
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(858, 486);
             Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(pictureBox1);
-            Name = "Form2";
+            Name = "ManagerMenu";
             Text = "Form2";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);

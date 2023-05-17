@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UtilityLibrary;
 
 namespace ManagerGUI
 {
@@ -19,7 +20,48 @@ namespace ManagerGUI
 
         private void button1_Click(object sender, EventArgs e)
         {
+            // Création de la deuxième page
+            Clients form3 = new Clients(this);
+            form3.Show();
+            this.Hide();
 
+
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // Création de la deuxième page
+            ManagerMenu produits = new ManagerMenu();
+
+            produits.Show();
+            this.Hide();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            // Création de la deuxième page
+            ManagerMenu statistiques = new ManagerMenu();
+            statistiques.Show();
+            this.Hide();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            // Création de la deuxième page
+            //ManagerMenu commandes = new ManagerMenu();
+
+            List<PurchaseOrder> commandesClient = MySQLUtil.GetPurchaseOrders();
+            // Créez et affichez le formulaire contenant les commandes du client
+            CommandesClient commandesClientForm = new CommandesClient(commandesClient, this);
+            commandesClientForm.Show();
+            this.Hide();
+
+            /*commandes.Show();
+            this.Hide();*/
         }
     }
 }
