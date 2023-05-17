@@ -337,8 +337,6 @@ INSERT INTO is_stored (item_name, shop_id, quantity) VALUES
 
 
 USE florist;
-SELECT * FROM mysql.user;
-SELECT * FROM mysql.role_edges;
 
 -- Procedure to check if an email is valid and if it exists in the database
 DROP PROCEDURE IF EXISTS check_email;
@@ -488,7 +486,6 @@ END //
 DELIMITER ;
 GRANT EXECUTE ON PROCEDURE florist.order_standard_bouquet TO florist_client;
 
-SELECT * FROM florist.purchase_order;
 
 
 -- Procedure to check if an email is valid and if it exists in the database
@@ -506,6 +503,7 @@ DELIMITER ;
 GRANT EXECUTE ON PROCEDURE florist.get_client_id TO florist_client;
 
 DROP PROCEDURE IF EXISTS order_flower_arrangement;
+DELIMITER //
 CREATE PROCEDURE order_flower_arrangement
 (
     IN item_dict_param TEXT,
@@ -559,4 +557,6 @@ BEGIN
         VALUES (new_arrangement_id, item_id, quantity);
         SET i = i + 1;
     END WHILE;
-END
+END //
+DELIMITER ;
+GRANT EXECUTE ON PROCEDURE florist.order_flower_arrangement TO florist_client;
