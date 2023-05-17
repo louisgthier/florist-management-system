@@ -72,5 +72,10 @@ namespace ManagerGUI
         {
             MySQLUtil.ExportClientsToXML();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MySQLUtil.ExportInactiveClientsToJson();
+        }
     }
 }

@@ -6,6 +6,8 @@ using UtilityLibrary;
 using MySqlX.XDevAPI.Common;
 using System.Xml;
 using System.Linq.Expressions;
+using Newtonsoft.Json;
+
 
 namespace UtilityLibrary
 {
@@ -121,6 +123,49 @@ namespace UtilityLibrary
 
                     // Save the XML document to a file or perform any desired operations
                     xmlDocument.Save("clients.xml");
+                }
+            }
+        }
+        public static void ExportInactiveClientsToJson()
+        {
+            // SQL query to retrieve inactive clients
+            string sqlQuery = @"
+                SELECT c.id, c.first_name, c.name, c.email, c.phone_number, c.address, c.credit_card, c.inscription_date
+                FROM client c
+                WHERE c.id NOT IN (
+                    SELECT p.client_id
+                    FROM purchase_order p
+                    WHERE p.order_date >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
+                )";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                // Open the database connection
+                connection.Open();
+
+                // Create a MySqlCommand object
+                using (MySqlCommand command = new MySqlCommand(sqlQuery, connection))
+                {
+                    // Create a DataTable to hold the result set
+                    DataTable dataTable = new DataTable();
+
+                    // Execute the query and fill the DataTable
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
+                    {
+                        adapter.Fill(dataTable);
+                    }
+
+                    // Convert the DataTable to a list of dictionaries
+                    List<Dictionary<string, object>> clientData = dataTable.AsEnumerable()
+                        .Select(row => dataTable.Columns.Cast<DataColumn>()
+                            .ToDictionary(column => column.ColumnName, column => row[column]))
+                        .ToList();
+
+                    // Serialize the client data to JSON
+                    string jsonData = JsonConvert.SerializeObject(clientData, Newtonsoft.Json.Formatting.Indented);
+
+                    // Save the JSON data to a file or perform any desired operations
+                    File.WriteAllText("inactive_clients.json", jsonData);
                 }
             }
         }
