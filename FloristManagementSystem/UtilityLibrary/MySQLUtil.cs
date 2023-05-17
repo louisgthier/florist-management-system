@@ -334,10 +334,6 @@ namespace UtilityLibrary
 
                     while (reader.Read())// parcourt ligne par ligne
                     {
-                        reader.GetString(8);
-                        reader.GetInt32(9);
-                        reader.GetString(5);
-                        reader.GetDateTime(4);
                         result.Add(new PurchaseOrder(reader.GetInt32(0), reader.GetString(1), reader.GetString(2),
                             reader.GetDateTime(3), reader.GetDateTime(4),
                             reader.GetString(5), reader.GetInt32(6), reader.IsDBNull(7) ? null: reader.GetInt32(7), reader.IsDBNull(8) ? null : reader.GetString(8), reader.GetInt32(9)));
@@ -406,5 +402,6 @@ namespace UtilityLibrary
 
             return result;
         }
+        
     }
 }

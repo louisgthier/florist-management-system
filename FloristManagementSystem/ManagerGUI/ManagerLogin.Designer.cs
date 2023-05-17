@@ -43,14 +43,14 @@
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(800, 450);
+            pictureBox1.Size = new Size(894, 495);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(389, 180);
+            textBox1.Location = new Point(420, 184);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(232, 27);
             textBox1.TabIndex = 1;
@@ -58,7 +58,7 @@
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(389, 267);
+            textBox2.Location = new Point(420, 271);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(232, 27);
             textBox2.TabIndex = 2;
@@ -67,7 +67,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(389, 140);
+            label1.Location = new Point(420, 144);
             label1.Name = "label1";
             label1.Size = new Size(71, 20);
             label1.TabIndex = 3;
@@ -77,7 +77,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(389, 232);
+            label2.Location = new Point(420, 236);
             label2.Name = "label2";
             label2.Size = new Size(70, 20);
             label2.TabIndex = 4;
@@ -85,7 +85,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(527, 312);
+            button1.Location = new Point(558, 316);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
             button1.TabIndex = 5;
@@ -97,7 +97,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(891, 492);
             Controls.Add(button1);
             Controls.Add(label2);
             Controls.Add(label1);
