@@ -359,8 +359,8 @@ namespace UtilityLibrary
                     command.Parameters["@client_id"].Direction = ParameterDirection.Output;
 
                     command.ExecuteNonQuery();
-
-                    result = Convert.ToInt32(command.Parameters["@client_id"].Value);
+                    if (command.Parameters["@client_id"].Value is not DBNull)
+                        result = Convert.ToInt32(command.Parameters["@client_id"].Value);
                 }
             }
 
