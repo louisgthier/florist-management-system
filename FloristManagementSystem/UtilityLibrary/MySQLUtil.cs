@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using System.Threading;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using MySqlX.XDevAPI.Common;
+using System;
 
 namespace UtilityLibrary
 {
@@ -305,6 +306,48 @@ namespace UtilityLibrary
             }
         }
 
+        public static bool OrderFlowerArrangement(Dictionary<Item, int> items, string deliveryAddress, string message, string deliveryDate, int shopId, int price)
+        {
+            bool success = false;
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                // Open the database connection
+                connection.Open();
+
+                using (MySqlCommand command = new MySqlCommand("order_flower_arrangement", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // Add parameters to the stored procedure
+
+                    string json = "[";
+                    foreach (KeyValuePair<Item, int> kvp in items)
+                    {
+                        json += "{\"name\":\"" + kvp.Key.Name + "\",\"value\":" + kvp.Value + "},";
+                    }
+                    json = json.TrimEnd(',') + "]";
+                    command.Parameters.AddWithValue("@item_dict_param", json);
+
+                    command.Parameters.AddWithValue("@delivery_address_param", deliveryAddress);
+                    command.Parameters.AddWithValue("@message_param", message);
+                    command.Parameters.AddWithValue("@delivery_date_param", deliveryDate);
+                    command.Parameters.AddWithValue("@shop_id_param", shopId);
+                    command.Parameters.AddWithValue("@price_param", price);
+
+                    // Output parameters
+                    command.Parameters.Add("@success", MySqlDbType.Int32);
+                    command.Parameters["@success"].Direction = ParameterDirection.Output;
+
+                    // Execute the stored procedure
+                    command.ExecuteNonQuery();
+
+                    success = true;
+                }
+            }
+            return success;
+        }
+
         public static List<PurchaseOrder> GetPurchaseOrders(int? clientId=null)
         {
             List<PurchaseOrder> result = null;
@@ -334,10 +377,6 @@ namespace UtilityLibrary
 
                     while (reader.Read())// parcourt ligne par ligne
                     {
-                        reader.GetString(8);
-                        reader.GetInt32(9);
-                        reader.GetString(5);
-                        reader.GetDateTime(4);
                         result.Add(new PurchaseOrder(reader.GetInt32(0), reader.GetString(1), reader.GetString(2),
                             reader.GetDateTime(3), reader.GetDateTime(4),
                             reader.GetString(5), reader.GetInt32(6), reader.IsDBNull(7) ? null: reader.GetInt32(7), reader.IsDBNull(8) ? null : reader.GetString(8), reader.GetInt32(9)));
@@ -372,6 +411,37 @@ namespace UtilityLibrary
             return result;
         }
 
+
+        public static List<Item> GetItems()
+        {
+            List<Item> result = null;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // Create a MySqlCommand object
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText =
+                    "SELECT name, price, type, availability FROM item;";
+
+
+                    MySqlDataReader reader;
+                    reader = command.ExecuteReader();
+
+                    result = new List<Item>();
+
+
+                    while (reader.Read())// parcourt ligne par ligne
+                    {
+                        result.Add(new Item(reader.GetString(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3)));
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public static List<(Item, int)> GetItemsOfArrangement(int arrangementId)
         {
             List<(Item, int)> result = null;
@@ -383,7 +453,7 @@ namespace UtilityLibrary
                 using (MySqlCommand command = connection.CreateCommand())
                 {
                     command.CommandText =
-                    "SELECT * FROM arrangement_contains WHERE arrangement_id = " + arrangementId.ToString() + ";";
+                    "SELECT name, price, type, availability, quantity FROM florist.item JOIN florist.arrangement_contains ON florist.item.name = florist.arrangement_contains.item_name WHERE arrangement_id = " + arrangementId.ToString() + ";";
                     
 
                     MySqlDataReader reader;
@@ -394,12 +464,7 @@ namespace UtilityLibrary
 
                     while (reader.Read())// parcourt ligne par ligne
                     {
-                        int quantity = reader.GetInt32(2);
-                        string itemName = reader.GetString(1);
-
-                        new Item(reader.GetString(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3));
-                        // ToDo
-                        //result.Add(());
+                        result.Add((new Item(reader.GetString(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3)), reader.GetInt32(4)));
                     }
                 }
             }

@@ -47,7 +47,7 @@ category VARCHAR(50)
 );
 
 CREATE TABLE flower_arrangement (
-id INT PRIMARY KEY ,
+id INT PRIMARY KEY AUTO_INCREMENT,
 price INT
 );
 
@@ -82,10 +82,8 @@ availability VARCHAR(50)
 );
 
 
-
 CREATE TABLE arrangement_contains (
-
-arrangement_id INT NOT NULL,
+arrangement_id INT NOT NULL AUTO_INCREMENT,
 item_name VARCHAR(50) NOT NULL,
 quantity INT,
 PRIMARY KEY (arrangement_id, item_name),

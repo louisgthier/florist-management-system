@@ -25,6 +25,7 @@ namespace ClientCLI.Menus
             Console.WriteLine("Delivery date: " + order.DeliveryDate.ToString());
             Console.WriteLine("Delivery address: " + order.DeliveryAddress);
             Console.WriteLine("Designer message: " + order.Message);
+            Console.WriteLine("Shop id: " + order.ShopId);
 
             if (order.BouquetName is not null)
             {
@@ -32,8 +33,12 @@ namespace ClientCLI.Menus
             }
             else
             {
-                //MySQLUtil.Get
-                //foreach ()
+                Console.WriteLine("Arrangement items:");
+                List<(Item, int)> items = MySQLUtil.GetItemsOfArrangement((int)order.ArrangementId);
+                foreach ((Item, int) item in items)
+                {
+                    Console.WriteLine(" • " + item.Item1.Name + " (" + item.Item1.Price + "$): " + item.Item2.ToString());
+                }
             }
 
             Console.WriteLine();

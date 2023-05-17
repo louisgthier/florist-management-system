@@ -17,7 +17,7 @@ Menus[MenuID.MainMenu].options.Add(Menus[MenuID.Register]);
 
 Menus[MenuID.Order] = new Menu("Order");
 Menus[MenuID.OrderStandardBouquet] = new OrderStandardBouquetMenu();
-Menus[MenuID.OrderFlowerArrangement] = new Menu("Order flower arrangement");
+Menus[MenuID.OrderFlowerArrangement] = new OrderFlowerArrangementMenu();
 Menus[MenuID.Order].options.Add(Menus[MenuID.OrderStandardBouquet]);
 Menus[MenuID.Order].options.Add(Menus[MenuID.OrderFlowerArrangement]);
 

@@ -13,7 +13,7 @@ namespace ClientCLI.Menus
         {
             Console.Clear();
 
-            Console.WriteLine(name);
+            Console.WriteLine(name + "\n");
             Console.WriteLine(0 + ". " + "Cancel order");
             int i = 1;
             foreach (StandardBouquet bouquet in bouquets)
@@ -86,7 +86,7 @@ namespace ClientCLI.Menus
             int shopId = int.Parse(shopIdString);
 
             string confirm;
-            if (!RequestString("Confirm order (Y/N):", out confirm, inputValidator: x => (x.ToLower() == "y" || x.ToLower() == "n", "Incorrect option")))
+            if (!RequestString("Confirm order (y/n):", out confirm, inputValidator: x => (x.ToLower() == "y" || x.ToLower() == "n", "Incorrect option")))
                 return Program.MainMenu;
 
 

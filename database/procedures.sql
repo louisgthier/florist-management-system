@@ -113,6 +113,8 @@ BEGIN
     DECLARE client_exists BOOLEAN;
 
     DECLARE client_id_param INT;
+    DECLARE threeDaysLater DATETIME;
+    DECLARE orderState VARCHAR(4);
 
     SET success = 0;
 
@@ -122,10 +124,19 @@ BEGIN
     -- Find the client ID based on the username
     SELECT id INTO client_id_param FROM client WHERE CONCAT(email, "@localhost") = USER();
 
+    
+    SET threeDaysLater = NOW() + INTERVAL 3 DAY;
+
+    IF delivery_date_param <= threeDaysLater THEN
+        SET orderState = 'VINV';
+    ELSE
+        SET orderState = 'CC';
+    END IF;
+
     IF bouquet_exists = 1 AND client_id_param IS NOT NULL THEN
         -- Insert the new purchase order
         INSERT INTO purchase_order (delivery_address, message, delivery_date, order_date, order_state, client_id, bouquet_name, shop_id)
-        VALUES (delivery_address_param, message_param, delivery_date_param, NOW(), 'CC', client_id_param, bouquet_name_param, shop_id_param);
+        VALUES (delivery_address_param, message_param, delivery_date_param, NOW(), orderState, client_id_param, bouquet_name_param, shop_id_param);
 
         SET success = 1;
         SELECT 'Purchase order created' AS result;
@@ -156,3 +167,59 @@ BEGIN
 END //
 DELIMITER ;
 GRANT EXECUTE ON PROCEDURE florist.get_client_id TO florist_client;
+
+DROP PROCEDURE IF EXISTS order_flower_arrangement;
+CREATE PROCEDURE order_flower_arrangement
+(
+    IN item_dict_param TEXT,
+    IN delivery_address_param VARCHAR(100),
+    IN message_param VARCHAR(200),
+    IN delivery_date_param DATETIME,
+    IN shop_id_param INT,
+    IN price_param INT,
+    OUT success BOOLEAN
+)
+BEGIN
+    DECLARE i INT DEFAULT 0;
+    DECLARE item_id VARCHAR(50);
+    DECLARE quantity INT;
+    DECLARE client_id_param INT;
+    DECLARE client_exists BOOLEAN;
+    DECLARE new_arrangement_id INT;
+    SET success = 0;
+
+    -- Find the client ID based on the username
+    SELECT id INTO client_id_param FROM client WHERE CONCAT(email, "@localhost") = USER();
+
+    
+    -- Create the arrangement
+    INSERT INTO flower_arrangement (price) VALUES (price_param);
+  
+    SET new_arrangement_id = LAST_INSERT_ID();
+
+
+    IF client_id_param IS NOT NULL THEN
+        -- Insert the new purchase order
+        INSERT INTO purchase_order (delivery_address, message, delivery_date, order_date, order_state, client_id, arrangement_id, shop_id)
+        VALUES (delivery_address_param, message_param, delivery_date_param, NOW(), "CPAV", client_id_param, new_arrangement_id, shop_id_param);
+
+        SET success = 1;
+        SELECT 'Purchase order created' AS result;
+    ELSE
+        IF client_id_param IS NULL THEN
+            SELECT 'Invalid client username' AS result;
+        END IF;
+    END IF;
+
+    SET i = 0;
+    WHILE i < JSON_LENGTH(item_dict_param) DO
+        SET item_id = JSON_EXTRACT(item_dict_param, CONCAT('$[', i, '].name'));
+        SET item_id = SUBSTRING(item_id, 2, CHAR_LENGTH(item_id) - 2);
+        SET quantity = JSON_EXTRACT(item_dict_param, CONCAT('$[', i, '].value'));
+
+
+        INSERT INTO arrangement_contains (arrangement_id, item_name, quantity)
+        VALUES (new_arrangement_id, item_id, quantity);
+        SET i = i + 1;
+    END WHILE;
+END
