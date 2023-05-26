@@ -14,7 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UtilityLibrary\UtilityLibrary.csproj" />
+    <ProjectReference Include="..\UtilityLibrary\UtilityLibrary.csproj">
+      <ReferenceSourceTarget></ReferenceSourceTarget>
+    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>
